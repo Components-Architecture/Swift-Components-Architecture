@@ -1,16 +1,15 @@
 //
 //  AView.swift
-//  GamzaKitExample
+//  Components-Architecture-Example
 //
-//  Created by Gihyun on 10/3/24.
+//  Created by Milkyo on 10/5/24.
 //
 
+import Foundation
 import SwiftUI
 
 struct AView: View {
-  
   var body: some View {
     Text("Hello, World!")
   }
 }
-
