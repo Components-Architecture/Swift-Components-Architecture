@@ -10,23 +10,23 @@ import Foundation
 public actor InteractorOf<R: Reducer, V: Sendable> {
   private var reducer: R
   private var state: R.State
-  
+
   @MainActor
   public var viewState: V
-  
+
   public init(reducer: R) where V: ViewStatable, V.R == R {
     self.reducer = reducer
     self.state = reducer.initialState
-    
+
     self.viewState = V(state: reducer.initialState)
   }
-  
+
   public init(reducer: R) where V == R.State {
     self.reducer = reducer
     self.state = reducer.initialState
     self.viewState = reducer.initialState
   }
-  
+
   @MainActor
   public func send(_ action: R.Action) where V: ViewStatable, V.R == R {
     Task { [weak self] in
@@ -37,7 +37,7 @@ public actor InteractorOf<R: Reducer, V: Sendable> {
       self.viewState = V(state: newState)
     }
   }
-  
+
   @MainActor
   public func send(_ action: R.Action) where V == R.State {
     Task { [weak self] in
@@ -48,7 +48,7 @@ public actor InteractorOf<R: Reducer, V: Sendable> {
       self.viewState = await self.state
     }
   }
-  
+
   private func updateState(_ state: R.State) {
     self.state = state
   }

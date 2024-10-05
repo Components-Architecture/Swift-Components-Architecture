@@ -1,29 +1,30 @@
 //
 //  RootView.swift
-//  GamzaKitExample
+//  Components-Architecture-Example
 //
-//  Created by Gihyun on 10/3/24.
+//  Created by Milkyo on 10/5/24.
 //
 
+import ComponentsArchitecture
 import SwiftUI
 
 struct RootView: View {
   struct ViewState: ViewStatable {
     typealias R = RootReducer
-    
+
     var number: String
-    
+
     init(state: R.State) {
       self.number = "\(state.number)"
     }
   }
-  
+
   let interactor: InteractorOf<RootReducer, RootReducer.State>
-  
+
   init(interactor: InteractorOf<RootReducer, RootReducer.State>) {
     self.interactor = interactor
   }
-  
+
   var body: some View {
     HStack {
       Button {
@@ -31,9 +32,9 @@ struct RootView: View {
       } label: {
         Text("-")
       }
-      
+
       Text("\(self.interactor.viewState.number)")
-      
+
       Button {
         self.interactor.send(.didTapPlus)
       } label: {
