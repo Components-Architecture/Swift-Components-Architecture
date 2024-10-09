@@ -12,10 +12,10 @@ import Observation
 
 @available(iOS 17.0, *)
 @Observable @MainActor
-public final class InteractorOf<R: Reducer, V: Sendable>: Sendable {
+public final class InteractorOf<R: Reducer, V: Sendable & Equatable>: Sendable {
   @ObservationIgnored
   private var reducer: R
-  
+  @ObservationIgnored
   private var state: R.State
 
   public var viewState: V
@@ -53,7 +53,7 @@ public final class InteractorOf<R: Reducer, V: Sendable>: Sendable {
 }
 #else
 @MainActor
-public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Sendable {
+public final class InteractorOf<R: Reducer, V: Sendable, Equatable>: ObservableObject, Sendable {
   private let reducer: R
   private var state: R.State
   
