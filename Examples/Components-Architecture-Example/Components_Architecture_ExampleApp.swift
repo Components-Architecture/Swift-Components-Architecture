@@ -13,7 +13,7 @@ struct Components_Architecture_ExampleApp: App {
   var body: some Scene {
     WindowGroup {
       let reducer = RootReducer(initialState: RootReducer.State(number: 0))
-      RootView(interactor: InteractorOf<RootReducer, RootReducer.State>(reducer: reducer))
+      RootView(interactor: InteractorOf<RootReducer, RootView.ViewState>(reducer: reducer))
     }
   }
 }

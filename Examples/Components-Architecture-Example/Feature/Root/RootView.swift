@@ -18,10 +18,13 @@ struct RootView: View {
       self.number = "\(state.number)"
     }
   }
-
-  let interactor: InteractorOf<RootReducer, RootReducer.State>
-
-  init(interactor: InteractorOf<RootReducer, RootReducer.State>) {
+#if canImport(Observation)
+  let interactor: InteractorOf<RootReducer, ViewState>
+  #else
+  @ObservedObject
+  var interactor: InteractorOf<RootReducer, ViewState>
+#endif
+  init(interactor: InteractorOf<RootReducer, ViewState>) {
     self.interactor = interactor
   }
 
