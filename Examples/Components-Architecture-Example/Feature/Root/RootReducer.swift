@@ -20,14 +20,13 @@ actor RootReducer: Reducer {
 
   let initialState: State
 
-  var state: State
-
   init(initialState: State) {
     self.initialState = initialState
-    self.state = initialState
   }
 
   func reduce(state: State, action: Action) async -> State {
+    // main thread 체크
+    
     var newState = state
 
     switch action {

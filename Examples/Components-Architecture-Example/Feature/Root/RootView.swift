@@ -19,9 +19,9 @@ struct RootView: View {
     }
   }
 
-  let interactor: InteractorOf<RootReducer, RootReducer.State>
-
-  init(interactor: InteractorOf<RootReducer, RootReducer.State>) {
+  @ObservedObject
+  var interactor: InteractorOf<RootReducer, ViewState>
+  init(interactor: InteractorOf<RootReducer, ViewState>) {
     self.interactor = interactor
   }
 

@@ -20,11 +20,8 @@ actor AReducer: Reducer {
 
   let initialState: State
 
-  var state: State
-
   init(initialState: State) {
     self.initialState = initialState
-    self.state = initialState
   }
 
   func reduce(state: State, action: Action) async -> State {
