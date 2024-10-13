@@ -29,7 +29,6 @@ actor RootReducer: Reducer {
 
   func reduce(state: State, action: Action) async -> State {
     // main thread 체크
-    print("@@ isMainTrhead: ", Thread.isMainThread)
     
     var newState = state
 
