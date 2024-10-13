@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-public final class InteractorOf<R: Reducer, V: Sendable & Equatable>: ObservableObject, Sendable {
+public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Sendable {
   private let reducer: R
   private var state: R.State
   
