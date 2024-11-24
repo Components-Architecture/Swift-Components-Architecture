@@ -1,0 +1,46 @@
+//
+//  CounterView.swift
+//  Components-Architecture-Example
+//
+//  Created by Milkyo on 10/5/24.
+//
+
+import ComponentsArchitecture
+import Foundation
+import SwiftUI
+
+public struct CounterView: View {
+    public struct ViewState: ViewStatable {
+        public typealias R = CounterReducer
+
+        public var number: String
+
+        public init(state: R.State) {
+            number = "\(state.number)"
+        }
+    }
+
+    @ObservedObject
+    var interactor: InteractorOf<CounterReducer, ViewState>
+    public init(interactor: InteractorOf<CounterReducer, ViewState>) {
+        self.interactor = interactor
+    }
+
+    public var body: some View {
+        HStack {
+            Button {
+                self.interactor.send(.didTapMinus)
+            } label: {
+                Text("-")
+            }
+
+            Text("\(self.interactor.viewState.number)")
+
+            Button {
+                self.interactor.send(.didTapPlus)
+            } label: {
+                Text("+")
+            }
+        }
+    }
+}
