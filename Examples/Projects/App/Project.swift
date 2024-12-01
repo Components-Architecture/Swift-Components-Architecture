@@ -18,42 +18,42 @@ private let sources: SourceFilesList = ["Sources/**"]
 private let resources: ResourceFileElements = ["Resources/**"]
 private let scripts: [TargetScript] = []
 private let dependencies: [TargetDependency] = [
-    .Example.Module(.proxyModule),
-    .Example.Feature(.counter(.interface)),
-    .Example.Feature(.counter(.impl)),
-    .Example.Feature(.counterDetail(.interface)),
-    .Example.Feature(.counterDetail(.impl)),
+  .Example.Module(.proxyModule),
+  .Example.Feature(.counter(.interface)),
+  .Example.Feature(.counter(.impl)),
+  .Example.Feature(.counterDetail(.interface)),
+  .Example.Feature(.counterDetail(.impl)),
 ]
 private let settings: Settings = .settings(
-    base: [
-        "SWIFT_VERSION": "6.0",
-    ],
-    configurations: [
-        .debug(name: .debug),
-    ],
-    defaultSettings: .recommended
+  base: [
+    "SWIFT_VERSION": "6.0",
+  ],
+  configurations: [
+    .debug(name: .debug),
+  ],
+  defaultSettings: .recommended
 )
 
 private let appTarget = Target
-    .target(
-        name: name,
-        destinations: Environment.destinations,
-        product: product,
-        bundleId: Environment.bundleID,
-        deploymentTargets: deploymentTargets,
-        infoPlist: infoPlist,
-        sources: sources,
-        resources: resources,
-        scripts: scripts,
-        dependencies: dependencies,
-        settings: settings
-    )
+  .target(
+    name: name,
+    destinations: Environment.destinations,
+    product: product,
+    bundleId: Environment.bundleID,
+    deploymentTargets: deploymentTargets,
+    infoPlist: infoPlist,
+    sources: sources,
+    resources: resources,
+    scripts: scripts,
+    dependencies: dependencies,
+    settings: settings
+  )
 
 let project: Project = .init(
-    name: Environment.appName,
-    organizationName: organizationName,
-    options: .options(developmentRegion: "ko"),
-    settings: settings,
-    targets: [appTarget],
-    schemes: []
+  name: Environment.appName,
+  organizationName: organizationName,
+  options: .options(developmentRegion: "ko"),
+  settings: settings,
+  targets: [appTarget],
+  schemes: []
 )

@@ -6,41 +6,46 @@
 //
 
 import ComponentsArchitecture
+import CounterDetailInterface
+import CounterInterface
 import Foundation
 import SwiftUI
 
 public struct CounterView: View {
-    public struct ViewState: ViewStatable {
-        public typealias R = CounterReducer
+  public struct ViewState: ViewStatable {
+    public typealias R = CounterReducer
 
-        public var number: String
+    public var number: String
 
-        public init(state: R.State) {
-            number = "\(state.number)"
+    public init(state: R.State) {
+      number = "\(state.number)"
+    }
+  }
+
+  @ObservedObject
+  var interactor: InteractorOf<CounterReducer, ViewState>
+
+  public init(interactor: InteractorOf<CounterReducer, ViewState>) {
+    self.interactor = interactor
+  }
+
+  public var body: some View {
+    VStack {
+      HStack {
+        Button {
+          self.interactor.send(.didTapMinus)
+        } label: {
+          Text("-")
         }
-    }
 
-    @ObservedObject
-    var interactor: InteractorOf<CounterReducer, ViewState>
-    public init(interactor: InteractorOf<CounterReducer, ViewState>) {
-        self.interactor = interactor
-    }
+        Text("\(self.interactor.viewState.number)")
 
-    public var body: some View {
-        HStack {
-            Button {
-                self.interactor.send(.didTapMinus)
-            } label: {
-                Text("-")
-            }
-
-            Text("\(self.interactor.viewState.number)")
-
-            Button {
-                self.interactor.send(.didTapPlus)
-            } label: {
-                Text("+")
-            }
+        Button {
+          self.interactor.send(.didTapPlus)
+        } label: {
+          Text("+")
         }
+      }
     }
+  }
 }

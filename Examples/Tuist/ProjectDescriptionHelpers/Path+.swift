@@ -7,8 +7,8 @@
 
 import ProjectDescription
 
-public extension Path {
-    static func relativeToFeature(_ name: String, type: TargetDependencyType) -> Self {
-        .relativeToRoot("Projects/Feature/\(name)/\(type.rawValue)")
-    }
+extension Path {
+  public static func relativeToFeature(_ name: String, type: TargetDependencyType) -> Self {
+    .relativeToRoot("Projects/Feature/\(name)/\(type.rawValue)")
+  }
 }

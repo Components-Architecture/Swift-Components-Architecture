@@ -7,22 +7,31 @@
 //
 
 import ComponentsArchitecture
+import CounterDetailInterface
 import SwiftUI
 
 public struct CounterDetailView: View {
-    public struct ViewState: ViewStatable {
-        public typealias R = CounterDetailReducer
+  public struct ViewState: ViewStatable {
+    public typealias R = CounterDetailReducer
 
-        public init(state _: R.State) {}
-    }
+    let text: String
 
-    @ObservedObject
-    var interactor: InteractorOf<CounterDetailReducer, ViewState>
-    public init(interactor: InteractorOf<CounterDetailReducer, ViewState>) {
-        self.interactor = interactor
+    public init(state: R.State) {
+      self.text = state.text
     }
+  }
 
-    public var body: some View {
-        Text("Hello, World!")
+  @ObservedObject
+  var interactor: InteractorOf<CounterDetailReducer, ViewState>
+  public init(interactor: InteractorOf<CounterDetailReducer, ViewState>) {
+    self.interactor = interactor
+  }
+
+  public var body: some View {
+    Button {
+      interactor.send(.didTapText)
+    } label: {
+      Text(interactor.viewState.text)
     }
+  }
 }

@@ -9,4 +9,6 @@
 import ComponentsArchitecture
 import SwiftUI
 
-public protocol CounterDetailRoutable {}
+public protocol CounterDetailDelegate: AnyObject, Sendable {
+  func didTapText() async -> String
+}

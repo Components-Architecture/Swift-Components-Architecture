@@ -1,5 +1,5 @@
 import ProjectDescription
 
 let config = Config(
-    swiftVersion: .init(string: "6.0")
+  swiftVersion: .init(string: "6.0")
 )

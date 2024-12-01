@@ -33,6 +33,7 @@ public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Send
       guard let self else { return }
       let newState = await self.reducer.reduce(state: self.state, action: action)
       self.state = newState
+      await StateStore.currentState.setValue(self.state, forKey: self.reducer.self)
       self.viewState = V(state: newState)
     }
   }
@@ -42,6 +43,7 @@ public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Send
       guard let self else { return }
       let newState = await self.reducer.reduce(state: self.state, action: action)
       self.state = newState
+      await StateStore.currentState.setValue(self.state, forKey: self.reducer.self)
       self.viewState = self.state
     }
   }

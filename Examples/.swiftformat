@@ -1,0 +1,6 @@
+--disable redundantSelf, andOperator, redundantFileprivate, linebreaks, preferForLoop
+--wrapparameters before-first
+--indent 2
+--tabwidth 2
+--extensionacl on-declarations
+--swiftversion 6.0

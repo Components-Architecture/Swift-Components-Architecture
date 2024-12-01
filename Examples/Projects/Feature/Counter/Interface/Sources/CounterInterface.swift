@@ -9,8 +9,4 @@
 import ComponentsArchitecture
 import SwiftUI
 
-public protocol CounterRoutable {
-    associatedtype _CounterDetail: View
-
-    func routeCounterDetail() -> RoutingView<_CounterDetail>
-}
+public protocol CounterDelegate {}

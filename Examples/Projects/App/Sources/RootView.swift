@@ -11,32 +11,35 @@ import CounterImpl
 import SwiftUI
 
 struct RootView: View {
-    struct ViewState: ViewStatable {
-        typealias R = RootReducer
+  struct ViewState: ViewStatable {
+    typealias R = RootReducer
 
-        let counterInteractor: InteractorOf<CounterReducer, CounterView.ViewState>
+    let counterDetail: CounterDetailReducer?
 
-        init(state _: R.State) {
-            counterInteractor = .init(
-                reducer: CounterReducer(initialState: CounterReducer.State(number: 0))
-            )
+    init(state: R.State) {
+      self.counterDetail = state.counterDetailInteractor
+    }
+  }
+
+  @ObservedObject
+  var interactor: InteractorOf<RootReducer, ViewState>
+
+  init(interactor: InteractorOf<RootReducer, ViewState>) {
+    self.interactor = interactor
+  }
+
+  var body: some View {
+    NavigationView {
+      NavigationLink {
+        if let reduer = interactor.viewState.counterDetail {
+          CounterDetailView(interactor: .init(reducer: reduer))
         }
+      } label: {
+        Text("CounterDetail")
+      }
     }
-
-    @ObservedObject
-    var interactor: InteractorOf<RootReducer, ViewState>
-
-    init(interactor: InteractorOf<RootReducer, ViewState>) {
-        self.interactor = interactor
+    .onAppear {
+      interactor.send(.onAppear)
     }
-
-    var body: some View {
-        NavigationView {
-            NavigationLink {
-                CounterView(interactor: interactor.viewState.counterInteractor)
-            } label: {
-                Text("AReducer")
-            }
-        }
-    }
+  }
 }

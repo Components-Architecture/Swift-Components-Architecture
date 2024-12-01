@@ -6,31 +6,61 @@
 //
 
 import ComponentsArchitecture
+import CounterDetailImpl
+import CounterDetailInterface
 import Foundation
 
-protocol Middlewarable {}
-
 actor RootReducer: Reducer {
-    struct State {
-        // @@ 하위 state를 받을 이유가 있나? -> 모듈을 분리하려면 router를 이용하는게 맞을거 같다.
+  struct State {
+    enum Brand {
+      case gamzabada
+      case estelle
     }
 
-    enum Action {
-        case didTapText
+    let barnd: Brand = .gamzabada
+    var counterDetailInteractor: CounterDetailReducer?
+  }
+
+  enum Action {
+    case onAppear
+    case didTapText
+  }
+
+  let initialState: State
+
+  init(initialState: State) {
+    self.initialState = initialState
+  }
+
+  func reduce(state: State, action: Action) async -> State {
+    var newState = state
+    switch action {
+    case .onAppear:
+      // TODO: onAppear때 만들지 말고 view의 Text눌렀을 때 만들어야 함
+      newState.counterDetailInteractor = .init(
+        initialState: .init(),
+        delegate: self
+      )
+    case .didTapText:
+      break
     }
 
-    let initialState: State
+    return newState
+  }
+}
 
-    init(initialState: State) {
-        self.initialState = initialState
+extension RootReducer: CounterDetailDelegate {
+  func didTapText() async -> String {
+    switch await self.currentState.barnd {
+    case .estelle:
+      "estelle"
+    case .gamzabada:
+      "gamazabada"
     }
+  }
 
-    func reduce(state: State, action: Action) async -> State {
-        switch action {
-        case .didTapText:
-            break
-        }
-
-        return state
-    }
+  func disAppear() {
+    // TODO: counterDetail back했을 때 해지 안되는 이슈 있음
+//    self.currentState.counterDetailInteractor = nil
+  }
 }
