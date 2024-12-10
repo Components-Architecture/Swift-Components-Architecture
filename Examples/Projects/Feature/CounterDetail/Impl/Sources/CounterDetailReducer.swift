@@ -39,6 +39,4 @@ public actor CounterDetailReducer: Reducer {
 
     return newState
   }
-
-  deinit {}
 }
