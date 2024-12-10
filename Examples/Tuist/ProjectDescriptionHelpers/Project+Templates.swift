@@ -38,9 +38,6 @@ extension ProjectConfigurable {
 
     let bundleID = Environment.bundleID
 
-    var targets: [Target] = []
-    var schemes: [Scheme] = []
-
     let target: Target = .target(
       name: name,
       destinations: Environment.destinations,
@@ -54,15 +51,13 @@ extension ProjectConfigurable {
       dependencies: dependencies,
       settings: settings
     )
-    targets.append(target)
 
     return .init(
       name: name,
       organizationName: Environment.organizationName,
       packages: packages,
       settings: settings,
-      targets: targets,
-      schemes: schemes
+      targets: [target]
     )
   }
 }
