@@ -32,13 +32,27 @@ public struct CounterDetailView: View {
   }
 
   public var body: some View {
-    Button {
-      self.interactor.send(.didTapText { await self.delegate?.didTapText() })
-    } label: {
-      Text(self.interactor.viewState.text)
-    }
-    .onAppear {
-      self.interactor.send(.onAppear)
+    VStack {
+      Button {
+        self.interactor.send(.didTapText { await self.delegate?.didTapText() })
+      } label: {
+        Text(self.interactor.viewState.text)
+      }
+      .onAppear {
+        self.interactor.send(.onAppear)
+      }
+      
+      Button {
+        self.delegate?.didTapPop()
+      } label: {
+        Text("pop")
+      }
+      
+      Button {
+        self.delegate?.didTapPopToRoot()
+      } label: {
+        Text("popToRoot")
+      }
     }
   }
 }

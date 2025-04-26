@@ -9,6 +9,9 @@
 import ComponentsArchitecture
 import SwiftUI
 
+@MainActor
 public protocol CounterDetailDelegate: Sendable {
   func didTapText() async -> String
+  func didTapPop()
+  func didTapPopToRoot()
 }

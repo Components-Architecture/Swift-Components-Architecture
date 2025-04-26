@@ -69,4 +69,12 @@ extension RootView: CounterDetailDelegate {
   func didTapText() async -> String {
     return ""
   }
+  
+  func didTapPop() {
+    self.router.pop()
+  }
+  
+  func didTapPopToRoot() {
+    self.router.popToRoot()
+  }
 }

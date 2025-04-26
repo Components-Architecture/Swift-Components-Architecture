@@ -13,6 +13,7 @@ public protocol Routable: ObservableObject {
   func push(route: Route)
   func pop()
   func setPaths(_ paths: [Route])
+  func popToRoot()
 }
 
 public extension Routable {
@@ -29,5 +30,9 @@ public extension Routable {
   
   func setPaths(_ paths: [Route]) {
     self.paths = paths
+  }
+  
+  func popToRoot() {
+    self.paths = []
   }
 }
