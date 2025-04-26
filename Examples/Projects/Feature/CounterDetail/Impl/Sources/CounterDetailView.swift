@@ -21,13 +21,13 @@ public struct CounterDetailView: View {
     }
   }
 
-  @StateObject
+  @ObservedObject
   var interactor: InteractorOf<CounterDetailReducer, ViewState>
   
   private let delegate: CounterDetailDelegate?
   
   public init(interactor: InteractorOf<CounterDetailReducer, ViewState>, delegate: CounterDetailDelegate?) {
-    self._interactor = .init(wrappedValue: interactor)
+    self.interactor = interactor
     self.delegate = delegate
   }
 

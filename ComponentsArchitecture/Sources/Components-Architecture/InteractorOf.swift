@@ -66,10 +66,10 @@ public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Send
 
 extension InteractorOf: Hashable {
   nonisolated public func hash(into hasher: inout Hasher) {
-    hasher.combine(hashValue)
+    hasher.combine(reducer)
   }
   
   static nonisolated public func == (lhs: InteractorOf<R, V>, rhs: InteractorOf<R, V>) -> Bool {
-    lhs.reducer == rhs.reducer
+    lhs.hashValue == rhs.hashValue
   }
 }
