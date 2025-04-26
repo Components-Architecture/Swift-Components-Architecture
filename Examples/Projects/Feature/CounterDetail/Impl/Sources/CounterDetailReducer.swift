@@ -12,28 +12,32 @@ import Foundation
 
 public actor CounterDetailReducer: Reducer {
   public struct State: Sendable {
-    var text: String = "Hello World!"
-    public init() {}
+    var text: String
+    
+    public init(text: String = "Hello World!") {
+      self.text = text
+    }
   }
 
   public enum Action: Sendable {
-    case didTapText
+    case onAppear
+    case didTapText((@Sendable () async -> String?)?)
   }
 
   public let initialState: State
-  private weak var delegate: CounterDetailDelegate?
 
-  public init(initialState: State, delegate: CounterDetailDelegate?) {
+  public init(initialState: State) {
     self.initialState = initialState
-    self.delegate = delegate
   }
 
   public func reduce(state: State, action: Action) async -> State {
     var newState = state
 
     switch action {
-    case .didTapText:
-      guard let newText = await self.delegate?.didTapText() else { return newState }
+    case .onAppear:
+      print("\(Self.self) onAppear")
+    case .didTapText(let function):
+      guard let newText = await function?() else { return newState }
       newState.text = newText
     }
 

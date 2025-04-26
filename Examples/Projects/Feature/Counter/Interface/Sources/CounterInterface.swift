@@ -9,4 +9,7 @@
 import ComponentsArchitecture
 import SwiftUI
 
-public protocol CounterDelegate {}
+@MainActor
+public protocol CounterDelegate: Sendable {
+  func didTapNumber(_ number: Int) async
+}

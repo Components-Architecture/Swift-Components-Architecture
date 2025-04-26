@@ -7,7 +7,6 @@
 
 import Foundation
 
-// @@ -> 이럴거면 그냥 View를 protocol로 한번 감싸는건 어때?
 @MainActor
 public protocol ViewStatable: Sendable {
   associatedtype R where R: Reducer

@@ -11,7 +11,7 @@ enum StateStore {
   static let currentState = MapTable<AnyObject, Sendable>()
 }
 
-public protocol Reducer: AnyObject, Sendable {
+public protocol Reducer: AnyObject, Sendable, Hashable {
   associatedtype State: Sendable
   associatedtype Action: Sendable
 
@@ -19,10 +19,19 @@ public protocol Reducer: AnyObject, Sendable {
   
   func reduce(state: State, action: Action) async -> State
 }
-extension Reducer {
-  public var currentState: State {
+
+public extension Reducer {
+  var currentState: State {
     get async {
       return (await StateStore.currentState.getValue(forKey: self) as? State) ?? self.initialState
     }
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(ObjectIdentifier(self))
+  }
+  
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.hashValue == rhs.hashValue
   }
 }
