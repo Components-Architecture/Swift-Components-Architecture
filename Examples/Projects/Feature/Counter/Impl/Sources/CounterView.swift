@@ -15,21 +15,28 @@ public struct CounterView: View {
   public struct ViewState: ViewStatable {
     public typealias R = CounterReducer
 
-    public var number: String
+    public var number: String {
+      didSet {
+        print("##")
+      }
+    }
 
     public init(state: R.State) {
       number = "\(state.number)"
     }
   }
 
-  @ObservedObject
+  @StateObject
   var interactor: InteractorOf<CounterReducer, ViewState>
+  private let delegate: CounterDelegate?
 
-  public init(interactor: InteractorOf<CounterReducer, ViewState>) {
-    self.interactor = interactor
+  public init(interactor: InteractorOf<CounterReducer, ViewState>, delegate: CounterDelegate?) {
+    self._interactor = .init(wrappedValue: interactor)
+    self.delegate = delegate
   }
-
+  
   public var body: some View {
+    let _ = Self._printChanges()
     VStack {
       HStack {
         Button {
@@ -38,8 +45,12 @@ public struct CounterView: View {
           Text("-")
         }
 
-        Text("\(self.interactor.viewState.number)")
-
+        Button {
+          self.interactor.send(.didTapNumber({ await self.delegate?.didTapNumber($0) }))
+        } label: {
+          Text("\(self.interactor.viewState.number)")
+        }
+        
         Button {
           self.interactor.send(.didTapPlus)
         } label: {

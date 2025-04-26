@@ -7,10 +7,15 @@
 
 import ComponentsArchitecture
 import Foundation
+import CounterInterface
 
 public actor CounterReducer: Reducer {
   public struct State: Sendable {
-    var number: Int = 0
+    public var number: Int {
+      didSet {
+        print("##")
+      }
+    }
     public init(number: Int) {
       self.number = number
     }
@@ -19,10 +24,11 @@ public actor CounterReducer: Reducer {
   public enum Action: Sendable {
     case didTapMinus
     case didTapPlus
+    case didTapNumber((@Sendable (Int) async -> Void)?)
   }
 
   public let initialState: State
-
+  
   public init(initialState: State) {
     self.initialState = initialState
   }
@@ -33,8 +39,12 @@ public actor CounterReducer: Reducer {
     switch action {
     case .didTapMinus:
       newState.number = state.number - 1
+      
     case .didTapPlus:
       newState.number = state.number + 1
+      
+    case .didTapNumber(let function):
+      await function?(state.number)
     }
 
     return newState

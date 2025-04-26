@@ -9,6 +9,6 @@
 import ComponentsArchitecture
 import SwiftUI
 
-public protocol CounterDetailDelegate: AnyObject, Sendable {
+public protocol CounterDetailDelegate: Sendable {
   func didTapText() async -> String
 }

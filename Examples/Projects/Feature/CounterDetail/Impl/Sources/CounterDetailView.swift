@@ -21,17 +21,24 @@ public struct CounterDetailView: View {
     }
   }
 
-  @ObservedObject
+  @StateObject
   var interactor: InteractorOf<CounterDetailReducer, ViewState>
-  public init(interactor: InteractorOf<CounterDetailReducer, ViewState>) {
-    self.interactor = interactor
+  
+  private let delegate: CounterDetailDelegate?
+  
+  public init(interactor: InteractorOf<CounterDetailReducer, ViewState>, delegate: CounterDetailDelegate?) {
+    self._interactor = .init(wrappedValue: interactor)
+    self.delegate = delegate
   }
 
   public var body: some View {
     Button {
-      interactor.send(.didTapText)
+      self.interactor.send(.didTapText { await self.delegate?.didTapText() })
     } label: {
-      Text(interactor.viewState.text)
+      Text(self.interactor.viewState.text)
+    }
+    .onAppear {
+      self.interactor.send(.onAppear)
     }
   }
 }
