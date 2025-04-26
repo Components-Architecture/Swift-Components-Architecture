@@ -19,37 +19,35 @@ struct RootView: View {
     init(state: R.State) { }
   }
   
-  @StateObject
+  @ObservedObject
   var interactor: InteractorOf<RootReducer, ViewState>
-  @StateObject
+  @ObservedObject
   var router: RootRouter
   
   init(interactor: InteractorOf<RootReducer, ViewState>, router: RootRouter) {
-    self._interactor = .init(wrappedValue: interactor)
-    self._router = .init(wrappedValue: router)
+    self.interactor = interactor
+    self.router = router
   }
   
   var body: some View {
     NavigationStack(path: self.$router.paths) {
       Button {
-        self.router.push(route: .counter(.init(initialState: .init(number: 0))))
+        self.router.push(
+          route: .counter(.init(reducer: .init(initialState: .init(number: 0))))
+        )
       } label: {
         Text("I'm Root View")
       }
       .navigationDestination(for: RootRouter.Route.self) { route in
         switch route {
-        case .counter(let reducer):
-          if let reducer {
-            CounterView(interactor: .init(reducer: reducer), delegate: self)
-              .task {
-                let num = await reducer.currentState.number
-                print("CounterReducer.num: ", num)
-              }
-          }
-        case .counterDetail(let reducer):
-          if let reducer {
-            CounterDetailView(interactor: .init(reducer: reducer), delegate: self)
-          }
+        case .counter(let interactor):
+          CounterView(interactor: interactor, delegate: self)
+            .task {
+              let num = interactor.state.number
+              print("CounterReducer.num: ", num)
+            }
+        case .counterDetail(let interactor):
+          CounterDetailView(interactor: interactor, delegate: self)
         }
       }
     }
@@ -61,7 +59,7 @@ struct RootView: View {
 
 extension RootView: CounterDelegate {
   func didTapNumber(_ number: Int) async {
-    self.router.push(route: .counterDetail(.init(initialState: .init(text: "\(number)"))))
+    self.router.push(route: .counterDetail(.init(reducer: .init(initialState: .init(text: "\(number)")))))
   }
 }
 

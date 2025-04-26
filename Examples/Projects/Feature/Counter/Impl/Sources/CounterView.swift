@@ -15,11 +15,7 @@ public struct CounterView: View {
   public struct ViewState: ViewStatable {
     public typealias R = CounterReducer
 
-    public var number: String {
-      didSet {
-        print("##")
-      }
-    }
+    public var number: String
 
     public init(state: R.State) {
       number = "\(state.number)"
@@ -36,7 +32,6 @@ public struct CounterView: View {
   }
   
   public var body: some View {
-    let _ = Self._printChanges()
     VStack {
       HStack {
         Button {

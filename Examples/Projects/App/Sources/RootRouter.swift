@@ -13,8 +13,9 @@ import ComponentsArchitecture
 
 final class RootRouter: Routable {
   enum Route: Hashable {
-    case counter(CounterReducer?)
-    case counterDetail(CounterDetailReducer?)
+    case counter(InteractorOf<CounterReducer, CounterView.ViewState>)
+    case counterDetail(InteractorOf<CounterDetailReducer, CounterDetailView.ViewState>)
+    
   }
   
   @Published var paths: [Route] = []

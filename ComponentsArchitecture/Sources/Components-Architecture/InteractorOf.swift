@@ -19,7 +19,7 @@ import Foundation
 @MainActor
 public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Sendable {
   private let reducer: R
-  private var state: R.State
+  private(set) public var state: R.State
   
   @Published
   public var viewState: V
@@ -61,5 +61,15 @@ public final class InteractorOf<R: Reducer, V: Sendable>: ObservableObject, Send
       await StateStore.currentState.setValue(self.state, forKey: self.reducer.self)
       self.viewState = self.state
     }
+  }
+}
+
+extension InteractorOf: Hashable {
+  nonisolated public func hash(into hasher: inout Hasher) {
+    hasher.combine(hashValue)
+  }
+  
+  static nonisolated public func == (lhs: InteractorOf<R, V>, rhs: InteractorOf<R, V>) -> Bool {
+    lhs.reducer == rhs.reducer
   }
 }

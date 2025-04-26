@@ -11,11 +11,7 @@ import CounterInterface
 
 public actor CounterReducer: Reducer {
   public struct State: Sendable {
-    public var number: Int {
-      didSet {
-        print("##")
-      }
-    }
+    public var number: Int
     public init(number: Int) {
       self.number = number
     }

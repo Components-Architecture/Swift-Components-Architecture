@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 public protocol Routable: ObservableObject {
   associatedtype Route: Hashable
   var paths: [Route] { get set }
