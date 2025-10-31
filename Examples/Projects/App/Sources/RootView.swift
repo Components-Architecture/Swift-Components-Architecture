@@ -6,73 +6,34 @@
 //
 
 import ComponentsArchitecture
-import CounterDetailInterface
-import CounterDetailImpl
-import CounterInterface
-import CounterImpl
+import CounterListInterface
+import CounterListImpl
 import SwiftUI
 
 struct RootView: View {
-  struct ViewState: ViewStatable {
-    typealias R = RootReducer
-    
-    init(state: R.State) { }
-  }
+  @StateObject
+  var interactor: RootInteractor
   
-  @ObservedObject
-  var interactor: InteractorOf<RootReducer, ViewState>
-  @ObservedObject
-  var router: RootRouter
-  
-  init(interactor: InteractorOf<RootReducer, ViewState>, router: RootRouter) {
-    self.interactor = interactor
-    self.router = router
+  init(interactor: RootInteractor) {
+    self._interactor = .init(wrappedValue: interactor)
   }
   
   var body: some View {
-    NavigationStack(path: self.$router.paths) {
+    NavigationStack(path: self.$interactor.state.paths) {
       Button {
-        self.router.push(
-          route: .counter(.init(reducer: .init(initialState: .init(number: 0))))
-        )
+        self.interactor.send(.didTapRootView)
       } label: {
         Text("I'm Root View")
       }
-      .navigationDestination(for: RootRouter.Route.self) { route in
-        switch route {
-        case .counter(let interactor):
-          CounterView(interactor: interactor, delegate: self)
-            .task {
-              let num = interactor.state.number
-              print("CounterReducer.num: ", num)
-            }
-        case .counterDetail(let interactor):
-          CounterDetailView(interactor: interactor, delegate: self)
+      .navigationDestination(for: RootInteractor.State.Path.self) { path in
+        switch path {
+        case .counterList(let interactor):
+          CounterListView(interactor: interactor)
         }
       }
     }
     .onAppear {
       self.interactor.send(.onAppear)
     }
-  }
-}
-
-extension RootView: CounterDelegate {
-  func didTapNumber(_ number: Int) async {
-    self.router.push(route: .counterDetail(.init(reducer: .init(initialState: .init(text: "\(number)")))))
-  }
-}
-
-extension RootView: CounterDetailDelegate {
-  func didTapText() async -> String {
-    return ""
-  }
-  
-  func didTapPop() {
-    self.router.pop()
-  }
-  
-  func didTapPopToRoot() {
-    self.router.popToRoot()
   }
 }

@@ -12,11 +12,8 @@ import SwiftUI
 struct Components_Architecture_ExampleApp: App {
   var body: some Scene {
     WindowGroup {
-      let reducer = RootReducer(initialState: RootReducer.State())
-      RootView(
-        interactor: InteractorOf<RootReducer, RootView.ViewState>(reducer: reducer),
-        router: RootRouter()
-      )
+      let interactor = RootInteractor(initialState: .init())
+      RootView(interactor: interactor)
     }
   }
 }

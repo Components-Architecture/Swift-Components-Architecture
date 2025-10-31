@@ -19,10 +19,8 @@ private let resources: ResourceFileElements = ["Resources/**"]
 private let scripts: [TargetScript] = []
 private let dependencies: [TargetDependency] = [
   .Example.Module(.proxyModule),
-  .Example.Feature(.counter(.interface)),
-  .Example.Feature(.counter(.impl)),
-  .Example.Feature(.counterDetail(.interface)),
-  .Example.Feature(.counterDetail(.impl)),
+  .Example.Feature(.counterList(.interface)),
+  .Example.Feature(.counterList(.impl)),
 ]
 private let settings: Settings = .settings(
   base: [

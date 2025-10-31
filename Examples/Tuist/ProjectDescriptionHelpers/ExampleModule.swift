@@ -12,32 +12,25 @@ public enum ExampleModule: String {
   case proxyModule
 
   public enum Feature {
-    case counter(TargetDependencyType)
-    case counterDetail(TargetDependencyType)
+    case counterList(TargetDependencyType)
 
     var rawValue: String {
       switch self {
-      case .counter:
-        "Counter"
-      case .counterDetail:
-        "CounterDetail"
+      case .counterList:
+        "CounterList"
       }
     }
 
     public var name: String {
       switch self {
-      case let .counter(type):
-        "Counter" + type.rawValue
-      case let .counterDetail(type):
-        "CounterDetail" + type.rawValue
+      case let .counterList(type):
+        self.rawValue + type.rawValue
       }
     }
 
     var path: Path {
       switch self {
-      case let .counter(type):
-        _path(type)
-      case let .counterDetail(type):
+      case let .counterList(type):
         _path(type)
       }
     }

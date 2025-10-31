@@ -10,6 +10,6 @@
 
 let package = Package(
   name: "ComponentsArchitecturePackage",
-  platforms: [.iOS(.v15)],
+  platforms: [.iOS(.v16)],
   dependencies: []
 )

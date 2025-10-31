@@ -2,7 +2,7 @@
 //  Project.swift
 //  AppManifests
 //
-//  Created by Gihyun on 11/24/24.
+//  Created by wimes on 10/31/25.
 //
 
 import ProjectDescription
@@ -18,10 +18,11 @@ private let settings: Settings = .settings(
   defaultSettings: .recommended
 )
 
-let project = ExampleModule.Feature.counterDetail(.interface)
+let project = ExampleModule.Feature.counterList(.impl)
   .makeModule(
     dependencies: [
       .Example.Module(.proxyModule),
+      .Example.Feature(.counterList(.interface)),
     ],
     settings: settings
   )
